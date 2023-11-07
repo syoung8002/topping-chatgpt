@@ -1,5 +1,3 @@
-fileName: BaseDetailGrid.vue
----
 <template>
     <div></div>
 </template>
