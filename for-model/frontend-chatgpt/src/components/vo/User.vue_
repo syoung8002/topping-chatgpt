@@ -1,5 +1,4 @@
 fileName: User.vue
-path: frontend-wijmo/src/components/vo
 ---
 <template>
     <div>

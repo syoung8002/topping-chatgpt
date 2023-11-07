@@ -1,6 +1,5 @@
 forEach: Aggregate
 fileName: {{namePascalCase}}.vue
-path: frontend-wijmo/src/components
 ---
 <template>
     <div>

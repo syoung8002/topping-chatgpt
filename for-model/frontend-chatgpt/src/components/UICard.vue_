@@ -1,6 +1,5 @@
 forEach: UI
 fileName: {{namePascalCase}}Card.vue
-path: frontend-wijmo/src/components
 except: {{contexts.isNotCard}}
 ---
 <template>

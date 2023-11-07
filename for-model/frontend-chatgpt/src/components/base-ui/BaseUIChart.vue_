@@ -1,5 +1,4 @@
 fileName: BaseUIChart.vue
-path: frontend-wijmo/src/components/base-ui
 ---
 <template>
     <div></div>

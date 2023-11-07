@@ -1,6 +1,5 @@
 forEach: UI
 fileName: {{namePascalCase}}Chart.vue
-path: frontend-wijmo/src/components
 except: {{contexts.isNotChart}}
 ---
 <template>

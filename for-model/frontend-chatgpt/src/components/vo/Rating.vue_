@@ -1,5 +1,4 @@
 fileName: Rating.vue
-path: frontend-wijmo/src/components/vo
 ---
 <template>
     <div style="margin: 0 -15px 0 -15px;">

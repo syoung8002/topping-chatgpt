@@ -1,7 +1,5 @@
 forEach: Model
-
 fileName: Boolean.vue
-path: frontend-wijmo/src/components/primitives
 ---
 <template>
     <div>

@@ -1,6 +1,5 @@
 forEach: UI
 fileName: {{namePascalCase}}Grid.vue
-path: frontend-wijmo/src/components
 except: {{contexts.isNotGrid}}
 ---
 <template>

@@ -1,9 +1,5 @@
-
-
 forEach: Model
 fileName: router.js
-
-path: frontend-wijmo/src
 ---
 
 import Vue from 'vue'

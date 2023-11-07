@@ -1,6 +1,5 @@
 forEach: ValueObject
 fileName: {{namePascalCase}}.vue
-path: frontend-wijmo/src/components
 ---
 <template>
     {{#referenceClass}}

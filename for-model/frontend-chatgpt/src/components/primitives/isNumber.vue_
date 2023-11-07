@@ -1,5 +1,4 @@
 fileName: Number.vue
-path: frontend-wijmo/src/components/primitives
 ---
 <template>
     <div>
