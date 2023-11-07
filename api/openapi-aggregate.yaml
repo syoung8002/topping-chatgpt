@@ -1,4 +1,4 @@
-forEach: Command
+forEach: Aggregate
 fileName: openapi.yaml
 ifDuplicated: merge
 ---
@@ -15,7 +15,6 @@ info:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 paths:
-{{#aggregate}}
   /{{namePlural}}:
     summary: Global operations on {{namePlural}}
     get:
@@ -160,7 +159,6 @@ components:
 tags:
 - name: {{namePascalCase}}
   description: {{namePascalCase}} resource
-{{/aggregate}}
 
 <function>
 
