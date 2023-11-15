@@ -11,7 +11,7 @@
 
 <script>
 import ChatGenerator from "../ai/ChatGenerator.js"
-import apiSpec from "../api/openapi.yaml"
+import apiSpec from "../api/openapi.js"
 
 export default {
     name: 'Chat',
