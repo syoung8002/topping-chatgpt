@@ -1,10 +1,12 @@
+fileName: BaseGrid.vue
+---
 <template>
     <div></div>
 </template>
 
 <script>
-    import BaseEntity from './BaseEntity.vue';
-    import BaseSecurity from './BaseSecurity.vue';
+    import BaseEntity from './BaseEntity';
+    import BaseSecurity from './BaseSecurity';
 
     import '@grapecity/wijmo.touch';
     import '@grapecity/wijmo.vue2.grid';
@@ -18,7 +20,7 @@
     import * as wjcCore from "@grapecity/wijmo";
 
     export default {
-        name: "BaseGrid",
+        name: 'BaseGrid',
         data: () => ({
             flex: null,
             tick : true,

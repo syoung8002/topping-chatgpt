@@ -1,3 +1,5 @@
+fileName: BaseEntity.vue
+---
 <template>
     <div></div>
 </template>
@@ -7,7 +9,7 @@
     const axios = require('axios').default;
 
     export default {
-        name: "BaseEntity",
+        name: 'BaseEntity',
         props: {
             offline: Boolean,
             value: [Object, String, Number, Boolean, Array],

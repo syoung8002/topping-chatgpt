@@ -3,7 +3,7 @@
 </template>
  
  <script>
-    import BaseGrid from './BaseGrid.vue';
+    import BaseGrid from './BaseGrid';
 
     export default {
         name: 'BaseDetailGrid',
