@@ -5,9 +5,9 @@
 <script>
     const axios = require('axios').default;
 
-    const BaseRepository = require('../../repository/BaseRepository')
+    const BaseRepository = require('../../repository/BaseRepository');
 
-    export default{
+    export default {
         name: 'baseEntityUi',
         props: {
             offline: Boolean,
@@ -119,9 +119,6 @@
                 this.editMode = false
                 this.$EventBus.$emit('changeSelected', this.openDialog)
             },
-
         },
-
     }
-
 </script>
