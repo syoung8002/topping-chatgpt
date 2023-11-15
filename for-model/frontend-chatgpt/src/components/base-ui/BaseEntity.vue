@@ -8,7 +8,7 @@
     const BaseRepository = require('../../repository/BaseRepository');
 
     export default {
-        name: 'baseEntityUi',
+        name: 'BaseEntity',
         props: {
             offline: Boolean,
             value: [Object, String, Number, Boolean, Array],
@@ -120,5 +120,5 @@
                 this.$EventBus.$emit('changeSelected', this.openDialog)
             },
         },
-    }
+    };
 </script>

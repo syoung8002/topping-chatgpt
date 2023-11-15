@@ -243,7 +243,7 @@
                 return '';
             }
         },
-    }
+    };
 </script>
 
 <style>

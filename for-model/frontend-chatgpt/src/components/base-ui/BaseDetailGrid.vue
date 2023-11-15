@@ -3,18 +3,17 @@
 </template>
  
  <script>
-     import BaseGrid from './BaseGrid.vue';
- 
-     export default {
-         name: 'BaseDetailGrid',
-         mixins:[BaseGrid],
-         
-         async created() {
-             if (!this.value) {
-                 this.value = [];
-             }
-         },
-         methods: {
+    import BaseGrid from './BaseGrid.vue';
+
+    export default {
+        name: 'BaseDetailGrid',
+        mixins:[BaseGrid],
+        async created() {
+            if (!this.value) {
+                this.value = [];
+            }
+        },
+        methods: {
             addDetailRow() {
                 if (!this.value) {
                     this.value = [];
@@ -33,9 +32,8 @@
                     this.$emit('input', view.sourceCollection);
                 }
             }
-         }
-     };
-     
- </script>
+        },
+    };
+</script>
  
  
