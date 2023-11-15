@@ -3,12 +3,11 @@
 </template>
 
 <script>
+    const BaseRepository = require('../../repository/BaseRepository');
     const axios = require('axios').default;
 
-    const BaseRepository = require('../../repository/BaseRepository');
-
     export default {
-        name: 'BaseEntity',
+        name: "BaseEntity",
         props: {
             offline: Boolean,
             value: [Object, String, Number, Boolean, Array],
