@@ -84,6 +84,9 @@ import Chat from './components/ui/Chat.vue'
 
 export default {
     name: "App",
+    components: {
+        Chat
+    },
     data: () => ({
         useComponent: "",
         drawer: true,

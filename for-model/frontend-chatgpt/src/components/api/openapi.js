@@ -1,5 +1,7 @@
-import specYaml from "../api/openapi.yaml"
+import specYaml from "js-yaml-loader!./openapi.yaml";
 
-let apiSpec = specYaml;
+const YAML = require('json2yaml');
+
+let apiSpec = YAML.stringify(specYaml);
 
 export default apiSpec;

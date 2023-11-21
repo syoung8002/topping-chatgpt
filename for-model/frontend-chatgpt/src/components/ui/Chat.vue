@@ -1,32 +1,132 @@
 <template>
-    <div style="max-height:80vh;">
-        <li v-for="(message, index) in messages" :key="index">{{message.role}} : {{message.text}}
-        
-            <v-btn v-if="message.role == 'system'" @click="doit(message)">실행</v-btn>
-        </li>
-        <v-text-field v-model="newMessage"></v-text-field>
-        <v-btn @click="sendMessage">send</v-btn>
+    <div>
+        <div class="message-box" ref="messages">
+            <div v-for="(message, index) in messages"
+                    :key="index"
+            >
+                <div v-if="message.role == 'user'"
+                        class="d-flex justify-end my-2"
+                >
+                    <div class="user-message">
+                        {{ message.text }} 
+                    </div>
+                    <div class="ml-1">
+                        <v-avatar size="48">
+                            <v-icon>
+                                mdi-account-circle
+                            </v-icon>
+                        </v-avatar>
+                        <div class="subtitle-2 text-center">
+                            {{ message.role }}
+                        </div>
+                    </div>
+                </div>
+
+                <div v-else-if="message.role == 'system'"
+                        class="d-flex justify-start my-2"
+                >
+                    <div class="mr-2">
+                        <v-avatar size="48">
+                            <v-icon>
+                                mdi-account-circle
+                            </v-icon>
+                        </v-avatar>
+                        <div class="subtitle-2 text-center">
+                            {{ message.role }}
+                        </div>
+                    </div>
+                    <div class="d-flex system-message">
+                        <div v-html="message.text"></div>
+                        <v-btn v-if="message.command"
+                                @click="doit(message)"
+                                color="success"
+                                class="mx-1"
+                        >
+                            실행
+                        </v-btn>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="loading" class="d-flex justify-start my-2">
+                <div class="mr-2">
+                    <v-avatar size="48">
+                        <v-icon>
+                            mdi-account-circle
+                        </v-icon>
+                    </v-avatar>
+                    <div class="subtitle-2 text-center">
+                        system
+                    </div>
+                </div>
+                <div class="d-flex system-message">
+                    <v-progress-circular
+                            indeterminate
+                            color="grey"
+                    ></v-progress-circular>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-center">
+            <v-card flat class="chat-box">
+                <v-text-field
+                        v-model="newMessage"
+                        @keydown.enter="sendMessage"
+                        label="Send Message"
+                        dense
+                        class="px-5 pt-2"
+                >
+                    <template v-slot:append>
+                        <v-btn @click="sendMessage"
+                                color="primary"
+                                icon
+                                fab
+                                small
+                        >
+                            <v-icon>mdi-send</v-icon>
+                        </v-btn>
+                    </template>
+                </v-text-field>
+            </v-card>
+        </div>
     </div>
 </template>
 
 <script>
-import ChatGenerator from "../ai/ChatGenerator.js"
-import apiSpec from "../api/openapi.js"
+import ChatGenerator from "../ai/ChatGenerator.js";
+import apiSpec from "../api/openapi.js";
+
+const BaseRepository = require('../../repository/BaseRepository');
+const axios = require('axios').default;
 
 export default {
     name: 'Chat',
-    components:{
-    },
     data: () => ({
         messages: [],
         newMessage: "",
         generator: null,
-        input: {}
+        input: {},
+        loading: false,
     }),
-
-    created(){
-        this.generator = new ChatGenerator(this, {isStream: true,preferredLanguage: "Korean"})
-        this.generator.previousMessages = [{
+    created() {
+        this.generator = new ChatGenerator(this, {
+            isStream: true,
+            preferredLanguage: "Korean"
+        });
+        this.init();
+    },
+    watch: {
+        messages() {
+            this.$nextTick(() => {
+                let messages = this.$refs.messages;
+                messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+            });
+        },
+    },
+    methods:{
+        init() {
+            this.generator.previousMessages = [{
             role: 'system',
             content: `
 시스템과 사용자간 챗봇을 제공하려고 해.
@@ -63,7 +163,9 @@ RESPONSE FORMAT:
         "name": "command name",
         "args":{
             "key": "value"
-        }
+        },
+        "path": "api path",
+        "method": "http Method" // in capital letters
     },
     "thoughts": {
         "text": "thought",
@@ -76,46 +178,174 @@ RESPONSE FORMAT:
         "name": "error name",
         "speak": "error message to user"
     }
-}]  
+}]
 `
+            }];
+        },
 
-        }]
-    },
-    methods:{
+        sendMessage() {
+            if (this.newMessage !== "") {
+                this.loading = true;
+                this.init();
+                
+                this.messages.push(
+                    {
+                        role: "user",
+                        text: this.newMessage
+                    }
+                );
 
-        sendMessage(){
-            this.messages.push(
-                {
-                    role: "user",
-                    text: this.newMessage
-                }
-            );
-
-            this.generator.generate()
-
-            this.newMessage = ""
-
-
+                this.generator.generate();
+                this.newMessage = "";
+            }
         },
 
         onGenerationFinished(responses){
-
-            console.log(responses);
+            // console.log(responses);
+            this.loading = false;
+            var message;
 
             responses.forEach(response=> {
-                this.messages.push({
-                    role:'system',
-                    text: response.thoughts ? response.thoughts.speak :  response.command.name + "을 다음의 아규먼트로 실행합니다: " + JSON.stringify(response.command.args),
-                    command: response.command
-                })
-            })
+                if (response.command) {
+                    message = {
+                        role:'system',
+                        text: response.thoughts && response.thoughts.speak ? response.thoughts.speak 
+                            : response.command.name + "을 다음의 아규먼트로 실행합니다: " + JSON.stringify(response.command.args),
+                        command: response.command
+                    };
 
+                    this.messages.push(message);
+
+                } else if (response.markdown) {
+                    message = {
+                        role:'system',
+                        text: response.markdown.replace(/(?:\r\n|\r|\n)/g, '<br />')
+                    };
+
+                    this.messages.push(message);
+
+                }  else if (response.error) {
+                    message = {
+                        role:'system',
+                        text: response.error.speak ? response.error.speak : response.error
+                    };
+
+                    this.messages.push(message);
+
+                }
+            });
         },
 
-        doit(message){
-            alert(JSON.stringify(message.command))
-        }
+        async doit(message){
+            this.loading = true;
+
+            await this.submit(message).then((res) => {
+                if (res.data) {
+                    this.formatMarkdown(JSON.stringify(res.data));
+                } else {
+                    this.formatMarkdown(JSON.stringify(res));
+                }
+            }).catch(error => {
+                if (error.response) {
+                    this.handleException(error);
+                } else {
+                    this.loading = false;
+                    var message = {
+                        role: 'system',
+                        text: error
+                    }
+                    this.messages.push(message);
+                }
+            })
+        },
+
+        async submit(message) {
+            var path = message.command.path;
+            if (path.charAt(0) === '/') {
+                path = path.substr(1);
+            }
+            var value = message.command.args;
+            var repository = new BaseRepository(axios, path);
+
+            if (message.command.method === 'POST') {
+                return await repository.save(value, true);
+            } else if (message.command.method === 'PUT') {
+                return await repository.save(value, false);
+            } else if (message.command.method === 'GET') {
+                return await repository.find();
+            } else if (message.command.method === 'DELETE') {
+                return await repository.delete(value);
+            }
+        },
+
+        async formatMarkdown(value) {
+            this.generator.previousMessages = [{
+                role: 'system',
+                content: `
+You should only respond in JSON format as described below
+
+RESPONSE FORMAT:
+[{
+    "markdown": "generated markdown text"
+}]
+                `
+            }];
+            this.newMessage = `
+Generate the following values in markdown text format:
+${value}
+`;
+
+            await this.generator.generate();
+
+            this.newMessage = "";
+        },
+
+        async handleException(error) {
+            if (error.response.data && error.response.data.message) {
+                await this.init();
+                this.newMessage = `
+Respond by resolving the error message below:
+${error.response.data.message}
+`;
+                await this.generator.generate();
+
+                this.newMessage = "";
+            }
+        },
 
     }
 }
 </script>
+
+<style scoped>
+.user-message {
+    background: #2196F3;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 20px;
+}
+
+.system-message {
+    background: #eeeeee;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 20px;
+}
+
+.message-box {
+    height: calc(100vh - 165px);
+    overflow-y: auto;
+}
+
+.chat-box {
+    position: fixed; 
+    bottom: 15px; 
+    width: 80%;
+    background: #eeeeee;
+    border-radius: 20px;
+}
+
+</style>

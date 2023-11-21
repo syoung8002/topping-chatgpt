@@ -17,9 +17,9 @@ class JsonAIGenerator extends AIGenerator{
 
     createMessages(){
         let messages = super.createMessages();
-        if(messages)
+        if(messages) {
             messages[messages.length - 1].content += ". Please generate the json in valid json format and if there's a property its value is null, don't contain the property. also, Please return only the json without any natural language."
-
+        }
         return messages;
     }
     createModel(text){
