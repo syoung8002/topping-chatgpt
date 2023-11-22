@@ -1,12 +1,12 @@
 forEach: Aggregate
-fileName: openapi.yaml
+fileName: {{nameCamelCase}}-openapi.yaml
 ifDuplicated: merge
 ---
 openapi: 3.0.2
 info:
-  title: {{aggregate.namePascalCase}}
+  title: {{namePascalCase}}
   version: 0.0.1
-  description: API definition of {{aggregate.nameCamelCase}}
+  description: API definition of {{nameCamelCase}}
   contact:
     name: creator's name
     url: http://creator.homepage.address

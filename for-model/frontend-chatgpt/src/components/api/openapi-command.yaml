@@ -1,5 +1,5 @@
 forEach: Command
-fileName: openapi.yaml
+fileName: {{aggregate.nameCamelCase}}-openapi.yaml
 except: {{contexts.except}}
 ifDuplicated: merge
 ---
