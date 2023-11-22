@@ -8,7 +8,7 @@
                         class="d-flex justify-end my-2"
                 >
                     <div class="user-message">
-                        {{ message.text }} 
+                        \{{ message.text }} 
                     </div>
                     <div class="ml-1">
                         <v-avatar size="48">
@@ -17,7 +17,7 @@
                             </v-icon>
                         </v-avatar>
                         <div class="subtitle-2 text-center">
-                            {{ message.role }}
+                            \{{ message.role }}
                         </div>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                             </v-icon>
                         </v-avatar>
                         <div class="subtitle-2 text-center">
-                            {{ message.role }}
+                            \{{ message.role }}
                         </div>
                     </div>
                     <div class="d-flex system-message">
